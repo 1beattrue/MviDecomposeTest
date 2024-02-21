@@ -1,8 +1,10 @@
 package com.example.mvidecomposetest.presentation
 
+import android.os.Parcelable
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.parcelize.Parcelize
 
-interface AddContactComponent { // описание экрана(компонента) такое, каким его видит пользователь
+interface AddContactComponent {
 
     val model: StateFlow<Model>
 
@@ -12,8 +14,9 @@ interface AddContactComponent { // описание экрана(компоне�
 
     fun onSaveContactClicked()
 
+    @Parcelize
     data class Model(
         val username: String,
         val phone: String
-    )
+    ) : Parcelable
 }
