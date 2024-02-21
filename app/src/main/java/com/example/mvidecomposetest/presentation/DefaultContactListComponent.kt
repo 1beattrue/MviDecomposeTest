@@ -1,6 +1,8 @@
 package com.example.mvidecomposetest.presentation
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.instancekeeper.InstanceKeeper
+import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.example.mvidecomposetest.core.componentScope
 import com.example.mvidecomposetest.data.RepositoryImpl
 import com.example.mvidecomposetest.domain.Contact
@@ -16,6 +18,8 @@ class DefaultContactListComponent(
     val onEditingContactRequested: (Contact) -> Unit,
     val onAddContactRequested: () -> Unit,
 ) : ContactListComponent, ComponentContext by componentContext { // реализация всех методов при помощи делегата
+
+    private val viewModel = instanceKeeper.getOrCreate { FakeViewModel() }
 
     private val repository: Repository = RepositoryImpl
     private val getContactsUseCase = GetContactsUseCase(repository)
@@ -34,5 +38,11 @@ class DefaultContactListComponent(
 
     override fun onAddContactClicked() {
         onAddContactRequested()
+    }
+}
+
+class FakeViewModel : InstanceKeeper.Instance {
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
