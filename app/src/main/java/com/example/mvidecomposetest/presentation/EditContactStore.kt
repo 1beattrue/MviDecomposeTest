@@ -14,7 +14,7 @@ interface EditContactStore :
         object ContactSaved : Label
     }
 
-    interface Intent {
+    sealed interface Intent {
         data class ChangeUsername(val username: String) : Intent
 
         data class ChangePhone(val phone: String) : Intent
