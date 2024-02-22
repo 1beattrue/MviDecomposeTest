@@ -11,13 +11,25 @@ class EditContactStoreFactory(
     private val storeFactory: StoreFactory,
     private val editContactUseCase: EditContactUseCase
 ) {
-    private val store: Store<EditContactStore.Intent, EditContactStore.State, EditContactStore.Label> =
-        storeFactory.create(
+//    private val store: Store<EditContactStore.Intent, EditContactStore.State, EditContactStore.Label> =
+//        storeFactory.create(
+//            name = "EditContactStore",
+//            initialState = EditContactStore.State(username = "", phone = ""),
+//            reducer = ReducerImpl,
+//            executorFactory = ::ExecutorImpl
+//        ) // подставили непосредственно в делегат
+
+    fun create(contact: Contact): EditContactStore = object : EditContactStore,
+        Store<EditContactStore.Intent, EditContactStore.State, EditContactStore.Label> by storeFactory.create(
             name = "EditContactStore",
-            initialState = EditContactStore.State(username = "", phone = ""),
+            initialState = EditContactStore.State(
+                id = contact.id,
+                username = contact.username,
+                phone = contact.phone
+            ),
             reducer = ReducerImpl,
             executorFactory = ::ExecutorImpl
-        )
+        ) {}
 
     private sealed interface Action
 
@@ -45,7 +57,11 @@ class EditContactStoreFactory(
                 EditContactStore.Intent.SaveContact -> {
                     val state = getState()
                     editContactUseCase(
-                        contact = Contact(username = state.username, phone = state.phone)
+                        contact = Contact(
+                            id = state.id,
+                            username = state.username,
+                            phone = state.phone
+                        )
                     )
                     publish(EditContactStore.Label.ContactSaved)
                 }
