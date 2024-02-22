@@ -6,9 +6,9 @@ import com.example.mvidecomposetest.domain.Contact
 interface ContactListStore :
     Store<ContactListStore.Intent, ContactListStore.State, ContactListStore.Label> {
 
-    sealed interface State {
+    data class State(
         val contactList: List<Contact>
-    }
+    )
 
     sealed interface Intent {
         data class SelectContact(val contact: Contact) : Intent
