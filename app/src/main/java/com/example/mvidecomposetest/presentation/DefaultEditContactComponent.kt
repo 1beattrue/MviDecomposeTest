@@ -15,7 +15,8 @@ class DefaultEditContactComponent(
     val onContactSaved: () -> Unit
 ) : EditContactComponent, ComponentContext by componentContext {
 
-    private lateinit var store: EditContactStore
+    private val storeFactory = EditContactStoreFactory()
+    private val store = storeFactory.create(contact)
 
     init {
         componentScope.launch {

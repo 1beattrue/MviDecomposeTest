@@ -5,14 +5,19 @@ import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import com.example.mvidecomposetest.data.RepositoryImpl
 import com.example.mvidecomposetest.domain.Contact
 import com.example.mvidecomposetest.domain.GetContactsUseCase
+import com.example.mvidecomposetest.domain.Repository
 import kotlinx.coroutines.launch
 
-class ContactListStoreFactory(
-    private val storeFactory: StoreFactory,
-    private val getContactsUseCase: GetContactsUseCase
-) {
+class ContactListStoreFactory {
+
+    private val storeFactory: StoreFactory = DefaultStoreFactory()
+    private val repository: Repository = RepositoryImpl
+    private val getContactsUseCase = GetContactsUseCase(repository)
+
     fun create(): ContactListStore = object : ContactListStore,
         Store<ContactListStore.Intent, ContactListStore.State, ContactListStore.Label> by storeFactory.create(
             name = "ContactListStore",

@@ -13,7 +13,8 @@ class DefaultAddContactComponent(
     val onContactSaved: () -> Unit
 ) : AddContactComponent, ComponentContext by componentContext {
 
-    private lateinit var store: AddContactStore // временное отсутствие реализации
+    private val storeFactory = AddContactStoreFactory()
+    private val store = storeFactory.create()
 
     init {
         componentScope.launch {

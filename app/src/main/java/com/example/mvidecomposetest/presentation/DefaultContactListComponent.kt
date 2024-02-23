@@ -16,7 +16,8 @@ class DefaultContactListComponent(
 ) : ContactListComponent,
     ComponentContext by componentContext { // реализация всех методов при помощи делегата
 
-    private lateinit var store: ContactListStore
+    private val storeFactory = ContactListStoreFactory()
+    private val store = storeFactory.create()
 
     init {
         componentScope.launch {
