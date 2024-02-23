@@ -1,9 +1,10 @@
 package com.example.mvidecomposetest.presentation
 
+import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import com.arkivanov.mvikotlin.core.store.Store
 
 interface AddContactStore :
-    Store<AddContactStore.Intent, AddContactStore.State, AddContactStore.Label> { // аналог ViewModel
+    Store<AddContactStore.Intent, AddContactStore.State, AddContactStore.Label>, InstanceKeeper.Instance { // аналог ViewModel
 
     data class State(
         val username: String,
